@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="index.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script type="module" src="styling.js"></script>
+  <script type="module" src="magenta.js"></script>
+  <script type="module" src="keyboard.js"></script>
+</head>
+<html>
+  <body>
+    <div class="additive-btn active-btn">
+      <div class="additive-btn-label active-btn-label">Additive</div>
+    </div>
+    <div class="am-btn">
+      <div class="am-btn-label">AM</div>
+    </div>
+    <div class="fm-btn">
+      <div class="fm-btn-label">FM</div>
+    </div>
+    <div class="keyboard-container">
+      <div class="speaker-1"><div class="mini-speaker-1"></div></div>
+      <div class="deselect-btn">Deselect</div>
+      <div class="recording-view"></div>
+      <div class="speaker-2"><div class="mini-speaker-2"></div></div>
+      <div class="play-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-play-fill play-icon"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
+          />
+        </svg>
+      </div>
+      <div class="stop-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-stop-fill stop-icon"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"
+          />
+        </svg>
+      </div>
+      <div class="replay-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-rewind-fill rewind-icon"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M8.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L8.404 7.304Z"
+          />
+          <path
+            d="M.404 7.304a.802.802 0 0 0 0 1.392l6.363 3.692c.52.302 1.233-.043 1.233-.696V4.308c0-.653-.713-.998-1.233-.696L.404 7.304Z"
+          />
+        </svg>
+      </div>
+      <div class="magenta-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-magic magenta-icon"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z"
+          />
+        </svg>
+      </div>
+      <input
+        type="range"
+        min="1"
+        max="100"
+        value="50"
+        class="slider"
+        id="myRange"
+      />
+      <div class="white-key-1 81">
+        <div class="note">C</div>
+        <div class="keypress">Q</div>
+      </div>
+      <div class="white-key-2 87">
+        <div class="note">D</div>
+        <div class="keypress">W</div>
+      </div>
+      <div class="white-key-3 69">
+        <div class="note">E</div>
+        <div class="keypress">E</div>
+      </div>
+      <div class="white-key-4 82">
+        <div class="note">F</div>
+        <div class="keypress">R</div>
+      </div>
+      <div class="white-key-5 84">
+        <div class="note">G</div>
+        <div class="keypress">T</div>
+      </div>
+    </div>
+  </body>
+</html>
