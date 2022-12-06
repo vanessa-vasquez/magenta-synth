@@ -3,6 +3,16 @@ body {
   background-color: #4f1cc3;
 }
 
+.magenta-overlay {
+  -webkit-transition-duration: 300ms;
+          transition-duration: 300ms;
+  position: absolute;
+  background-color: #f72585;
+  opacity: 0.65;
+  height: 100%;
+  z-index: 1;
+}
+
 .additive-btn,
 .am-btn,
 .fm-btn {
@@ -107,12 +117,6 @@ body {
   top: 40px;
   left: 230px;
   overflow-x: scroll;
-}
-
-.playback-line {
-  background-color: #e9e9e9;
-  width: 3px;
-  height: 150px;
 }
 
 .play-btn,
@@ -298,17 +302,16 @@ body {
   background-color: #7209b7;
   height: 10px;
   width: 35px;
-  opacity: 0.4;
 }
 
 .note-signal:hover {
   cursor: -webkit-grab;
   cursor: grab;
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .selected-note-signal {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .deselect-btn {

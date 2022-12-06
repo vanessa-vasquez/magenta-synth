@@ -96,6 +96,13 @@ const handleKeyPress = () => {
       }px;'></div>`
     );
 
+    $(".note-signal").animate(
+      {
+        opacity: 0.4,
+      },
+      500
+    );
+
     frequencyHistory.push(keyboardFrequencyMap[key]);
   });
 
@@ -110,7 +117,19 @@ const handleKeyPress = () => {
   });
 };
 
+const addMagentaOverlay = () => {
+  const widthOfSelection = selectedNotes.length * 35;
+  $(".recording-view").append(
+    `<div class='magenta-overlay'' style='width:${widthOfSelection}px;left:${
+      selectedNotes[0] * 35
+    }px;'></div>`
+  );
+};
+
 const handleBtnClick = () => {
+  $(".magenta-btn").click(() => {
+    addMagentaOverlay();
+  });
   $(".additive-btn").click(() => {
     if (activeSynthTechnique.length != 0) {
       const activeTechnique = activeSynthTechnique.pop();

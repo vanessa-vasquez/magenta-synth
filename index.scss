@@ -17,6 +17,15 @@ body {
   background-color: $main-purple;
 }
 
+.magenta-overlay {
+  transition-duration: 300ms;
+  position: absolute;
+  background-color: $hot-pink;
+  opacity: 0.65;
+  height: 100%;
+  z-index: 1;
+}
+
 .additive-btn,
 .am-btn,
 .fm-btn {
@@ -279,15 +288,14 @@ body {
   background-color: $note-color;
   height: 10px;
   width: 35px;
-  opacity: 0.4;
   &:hover {
     cursor: grab;
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 
 .selected-note-signal {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .deselect-btn {
