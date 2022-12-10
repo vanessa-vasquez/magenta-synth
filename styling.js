@@ -14,8 +14,9 @@ const signalPositioning = {
   84: 20,
 };
 
+window.window.frequencyHistory = [];
+
 let activeSynthTechnique = ["additive-btn"];
-let frequencyHistory = [];
 let selectedNotes = [];
 
 const selectNotesInRange = (noteIdx) => {
@@ -89,10 +90,10 @@ const handleKeyPress = () => {
     const widthOfNoteSignal = 35;
 
     $(".recording-view").append(
-      `<div class='note-signal ${frequencyHistory.length} freq-${
+      `<div class='note-signal ${window.frequencyHistory.length} freq-${
         keyboardFrequencyMap[key]
       }' style='top:${signalPositioning[key]}px;left:${
-        widthOfNoteSignal * frequencyHistory.length
+        widthOfNoteSignal * window.frequencyHistory.length
       }px;'></div>`
     );
 
@@ -103,7 +104,7 @@ const handleKeyPress = () => {
       500
     );
 
-    frequencyHistory.push(keyboardFrequencyMap[key]);
+    window.frequencyHistory.push(keyboardFrequencyMap[key]);
   });
 
   $(window).keyup((event) => {
@@ -120,7 +121,7 @@ const handleKeyPress = () => {
 const addMagentaOverlay = () => {
   const widthOfSelection = selectedNotes.length * 35;
   $(".recording-view").append(
-    `<div class='magenta-overlay'' style='width:${widthOfSelection}px;left:${
+    `<div class='magenta-overlay' style='width:${widthOfSelection}px;left:${
       selectedNotes[0] * 35
     }px;'></div>`
   );
@@ -129,6 +130,9 @@ const addMagentaOverlay = () => {
 const handleBtnClick = () => {
   $(".magenta-btn").click(() => {
     addMagentaOverlay();
+    $(".deselect-btn").css("display", "none");
+    removeNoteSignalStyling();
+    selectedNotes = [];
   });
   $(".additive-btn").click(() => {
     if (activeSynthTechnique.length != 0) {
@@ -192,4 +196,4 @@ $(document).ready(() => {
   handleBtnClick();
 });
 
-export { selectedNotes, frequencyHistory, keyboardFrequencyMap };
+export { selectedNotes, keyboardFrequencyMap };

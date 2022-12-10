@@ -26,6 +26,11 @@ body {
   z-index: 1;
 }
 
+.magenta-logo {
+  width: 50px;
+  height: 55px;
+}
+
 .additive-btn,
 .am-btn,
 .fm-btn {
@@ -125,6 +130,9 @@ body {
 .stop-btn,
 .replay-btn,
 .magenta-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition-duration: 300ms;
   position: absolute;
   width: 65px;
@@ -156,6 +164,15 @@ body {
 
 .magenta-btn {
   left: 590px;
+}
+
+.play-icon,
+.stop-icon,
+.rewind-icon,
+.magenta-icon {
+  color: $dark-grey;
+  width: 40px;
+  height: 40px;
 }
 
 .white-key-1,
@@ -221,38 +238,6 @@ body {
   transform: scale(1.05);
 }
 
-.play-icon {
-  color: $dark-grey;
-  margin-top: 14px;
-  margin-left: 14px;
-  width: 40px;
-  height: 40px;
-}
-
-.stop-icon {
-  color: $dark-grey;
-  margin-top: 15px;
-  margin-left: 13px;
-  width: 40px;
-  height: 40px;
-}
-
-.rewind-icon {
-  color: $dark-grey;
-  margin-top: 15px;
-  margin-left: 11px;
-  width: 40px;
-  height: 40px;
-}
-
-.magenta-icon {
-  color: $dark-grey;
-  margin-top: 15px;
-  margin-left: 13px;
-  width: 40px;
-  height: 40px;
-}
-
 .slider {
   position: absolute;
   -webkit-appearance: none;
@@ -292,6 +277,14 @@ body {
     cursor: grab;
     opacity: 1 !important;
   }
+}
+
+.magenta-note-signal {
+  position: absolute;
+  height: 10px;
+  width: 35px;
+  background-color: $hot-pink !important;
+  z-index: 1;
 }
 
 .selected-note-signal {

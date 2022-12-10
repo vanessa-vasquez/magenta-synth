@@ -13,6 +13,11 @@ body {
   z-index: 1;
 }
 
+.magenta-logo {
+  width: 50px;
+  height: 55px;
+}
+
 .additive-btn,
 .am-btn,
 .fm-btn {
@@ -123,6 +128,15 @@ body {
 .stop-btn,
 .replay-btn,
 .magenta-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-transition-duration: 300ms;
           transition-duration: 300ms;
   position: absolute;
@@ -160,6 +174,15 @@ body {
 
 .magenta-btn {
   left: 590px;
+}
+
+.play-icon,
+.stop-icon,
+.rewind-icon,
+.magenta-icon {
+  color: #222222;
+  width: 40px;
+  height: 40px;
 }
 
 .white-key-1,
@@ -235,38 +258,6 @@ body {
           transform: scale(1.05);
 }
 
-.play-icon {
-  color: #222222;
-  margin-top: 14px;
-  margin-left: 14px;
-  width: 40px;
-  height: 40px;
-}
-
-.stop-icon {
-  color: #222222;
-  margin-top: 15px;
-  margin-left: 13px;
-  width: 40px;
-  height: 40px;
-}
-
-.rewind-icon {
-  color: #222222;
-  margin-top: 15px;
-  margin-left: 11px;
-  width: 40px;
-  height: 40px;
-}
-
-.magenta-icon {
-  color: #222222;
-  margin-top: 15px;
-  margin-left: 13px;
-  width: 40px;
-  height: 40px;
-}
-
 .slider {
   position: absolute;
   -webkit-appearance: none;
@@ -308,6 +299,14 @@ body {
   cursor: -webkit-grab;
   cursor: grab;
   opacity: 1 !important;
+}
+
+.magenta-note-signal {
+  position: absolute;
+  height: 10px;
+  width: 35px;
+  background-color: #f72585 !important;
+  z-index: 1;
 }
 
 .selected-note-signal {
