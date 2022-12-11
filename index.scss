@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
 
-$font-stack: "Cabin", "sans-serif";
+$main-font: "Cabin", "sans-serif";
+$info-font: "Roboto Mons", monospace;
 $dark-grey: #222222;
 $light-blue: #4cc9f0;
 $dark-blue: #138db4;
@@ -18,12 +20,15 @@ body {
 }
 
 .magenta-overlay {
-  transition-duration: 300ms;
   position: absolute;
   background-color: $hot-pink;
   opacity: 0.65;
   height: 100%;
   z-index: 1;
+}
+
+.active-magenta-overlay {
+  opacity: 1 !important;
 }
 
 .magenta-logo {
@@ -52,7 +57,7 @@ body {
 .fm-btn-label {
   display: flex;
   justify-content: center;
-  font-family: $font-stack;
+  font-family: $main-font;
   font-size: 20px;
   color: $white;
   margin-top: 5px;
@@ -71,6 +76,28 @@ body {
   height: 480px;
   border-radius: 20px;
   margin-top: 100px;
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  width: 485px;
+  height: 50px;
+  border-style: solid;
+  border-radius: 20px;
+  border-color: $hot-pink;
+  top: 30px;
+  left: 230px;
+  overflow-x: scroll;
+  white-space: nowrap;
+}
+
+.info-status {
+  font-family: $info-font;
+  color: $hot-pink;
+  font-size: 25px;
+  margin-left: 20px;
 }
 
 .additive-btn {
@@ -121,14 +148,12 @@ body {
   height: 125px;
   background-color: $light-pink;
   border-radius: 20px;
-  top: 40px;
+  top: 100px;
   left: 230px;
   overflow-x: scroll;
 }
 
 .play-btn,
-.stop-btn,
-.replay-btn,
 .magenta-btn {
   display: flex;
   justify-content: center;
@@ -139,7 +164,7 @@ body {
   height: 65px;
   background-color: $light-blue;
   border-radius: 15px;
-  top: 250px;
+  top: 290px;
   &:hover {
     background-color: $dark-blue;
     cursor: grab;
@@ -151,19 +176,11 @@ body {
 }
 
 .play-btn {
-  left: 290px;
-}
-
-.stop-btn {
   left: 390px;
 }
 
-.replay-btn {
-  left: 490px;
-}
-
 .magenta-btn {
-  left: 590px;
+  left: 490px;
 }
 
 .play-icon,
@@ -186,10 +203,10 @@ body {
   background-color: $white;
   width: 100px;
   height: 230px;
-  top: 350px;
+  top: 375px;
   border: 1px solid $dark-grey;
   align-items: center;
-  font-family: $font-stack;
+  font-family: $main-font;
   font-size: 20px;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -247,8 +264,8 @@ body {
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
-  top: 200px;
-  left: 315px;
+  top: 250px;
+  left: 320px;
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -294,12 +311,12 @@ body {
 .deselect-btn {
   display: none;
   position: absolute;
-  top: 140px;
+  top: 200px;
   left: 620px;
   color: $note-color;
   font-size: 20px;
   z-index: 1;
-  font-family: $font-stack;
+  font-family: $main-font;
   &:hover {
     cursor: grab;
   }

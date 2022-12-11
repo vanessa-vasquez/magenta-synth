@@ -1,5 +1,3 @@
-import { selectedNotes } from "./styling.js";
-
 let numOfPartials = 1;
 let randomnessFactor = 15;
 let inputData = {
@@ -11,15 +9,15 @@ let audioCtx;
 
 const updateHistory = (newNotes) => {
   window.frequencyHistory.splice(
-    selectedNotes[0],
-    selectedNotes[selectedNotes.length - 1] - 1
+    window.selectedNotes[0],
+    window.selectedNotes.length
   );
 
-  let startIdx = selectedNotes[0];
+  let startIdx = window.selectedNotes[0];
 
-  let numNotesToAdd = selectedNotes.length;
+  let numNotesToAdd = window.selectedNotes.length;
 
-  if (newNotes.length < selectedNotes.length) {
+  if (newNotes.length < window.selectedNotes.length) {
     amountToAdd = newNotes.length;
   }
 
@@ -27,6 +25,10 @@ const updateHistory = (newNotes) => {
     window.frequencyHistory.splice(startIdx, 0, midiToFreq(newNotes[i].pitch));
     startIdx++;
   }
+
+  window.selectedNotes = [];
+
+  $(".info-status").text("success! ready to play now");
 };
 
 const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
@@ -66,7 +68,7 @@ const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
   });
 
   gainNode.gain.value = 0;
-  gainNode.gain.setTargetAtTime(0.8, startTime, 0.01);
+  gainNode.gain.setTargetAtTime(0.3, startTime, 0.01);
   gainNode.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
 
   return oscillators;
@@ -81,6 +83,7 @@ const freqToMidi = (f) => {
 };
 
 const genNotes = async () => {
+  $(".info-status").text("magentifying...");
   //load a pre-trained RNN model
   const music_rnn = new mm.MusicRNN(
     "https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/basic_rnn"
@@ -106,8 +109,6 @@ const genNotes = async () => {
   let sample = mm.sequences.unquantizeSequence(response);
 
   updateHistory(sample.notes);
-
-  music_rnn.dispose();
 };
 
 const createQuantizedInputData = () => {
@@ -116,7 +117,7 @@ const createQuantizedInputData = () => {
   let startTime = 0.0;
   let endTime = 0.5;
 
-  let startIdx = selectedNotes[0];
+  let startIdx = window.selectedNotes[0];
 
   for (let i = 0; i <= startIdx; i++) {
     let freq = window.frequencyHistory[i];
@@ -135,20 +136,11 @@ const createQuantizedInputData = () => {
   }
 
   inputData["totalTime"] = inputData["notes"].length * 0.5;
-  console.log("inputData", inputData["notes"]);
-};
-
-const visualize = (i) => {
-  let delay = (i + 1) * 475;
-
-  setTimeout(() => {
-    $(`.${i - 1}`).removeClass("selected-note-signal");
-    $(`.${i}`).addClass("selected-note-signal");
-  }, delay);
 };
 
 const handleBtnClick = () => {
-  $(document).on("click", ".play-btn", () => {
+  $(".play-btn").click(() => {
+    $(".info-status").text("playing...");
     let startTime = 0.0;
     let endTime = 0.5;
     window.frequencyHistory.forEach((freq, i) => {
@@ -159,7 +151,6 @@ const handleBtnClick = () => {
         window.frequencyHistory.length,
         i
       );
-      visualize(i);
       startTime += 0.5;
       endTime += 0.5;
     });
