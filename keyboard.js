@@ -6,7 +6,7 @@ let gainNodes2 = {};
 let numOfPartials = 1;
 let randomnessFactor = 15;
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx;
 
 const applyEnvelope = (gainNode) => {
   const gainNodesCount = Object.keys(gainNodes1).length;
@@ -27,6 +27,7 @@ const applyEnvelope = (gainNode) => {
 };
 
 const runAdditiveSynthesisMode = (key) => {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   let oscillators = [];
 
   let freqMultiplier = 2;

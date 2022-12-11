@@ -7,29 +7,30 @@ let inputData = {
   totalTime: 0,
 };
 
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+let audioCtx;
 
 const updateHistory = (newNotes) => {
   window.frequencyHistory.splice(
     selectedNotes[0],
-    selectedNotes[selectedNotes.length - 1]
+    selectedNotes[selectedNotes.length - 1] - 1
   );
 
   let startIdx = selectedNotes[0];
 
-  let amountToAdd = selectedNotes.length;
+  let numNotesToAdd = selectedNotes.length;
 
   if (newNotes.length < selectedNotes.length) {
     amountToAdd = newNotes.length;
   }
 
-  for (let i = 0; i < amountToAdd; i++) {
+  for (let i = 0; i < numNotesToAdd; i++) {
     window.frequencyHistory.splice(startIdx, 0, midiToFreq(newNotes[i].pitch));
     startIdx++;
   }
 };
 
 const playAdditiveSynthesis = (freq, startTime, endTime, offset) => {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   let oscillators = [];
 
   let freqMultiplier = 2;
@@ -84,6 +85,7 @@ const genNotes = async () => {
   const music_rnn = new mm.MusicRNN(
     "https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/basic_rnn"
   );
+
   music_rnn.initialize();
 
   //the RNN model expects quantized sequences
@@ -92,8 +94,6 @@ const genNotes = async () => {
   //and has some parameters we can tune
   const rnn_steps = 40; //including the input sequence length, how many more quantized steps (this is diff than how many notes) to generate
   const rnn_temperature = 1.1; //the higher the temperature, the more random (and less like the input) your sequence will be
-
-  console.log("input data", inputData);
 
   // we continue the sequence, which will take some time (thus is run async)
   // "then" when the async continueSequence is done, we play the notes
@@ -105,9 +105,9 @@ const genNotes = async () => {
 
   let sample = mm.sequences.unquantizeSequence(response);
 
-  console.log(sample.notes);
-
   updateHistory(sample.notes);
+
+  music_rnn.dispose();
 };
 
 const createQuantizedInputData = () => {
@@ -138,30 +138,17 @@ const createQuantizedInputData = () => {
   console.log("inputData", inputData["notes"]);
 };
 
-const playNote = (freq, startTime, endTime) => {
-  playAdditiveSynthesis(
-    freq,
-    startTime,
-    endTime,
-    window.frequencyHistory.length
-  );
-};
-
-const visualize = (i) => {
-  let delay = (i + 1) * 500 + (window.frequencyHistory.length * 1000) / 2;
-  setTimeout(() => {
-    $(`.${i - 1}`).removeClass("selected-note-signal");
-    $(`.${i}`).addClass("selected-note-signal");
-  }, delay);
-};
-
 const handleBtnClick = () => {
-  $(".play-btn").click(() => {
+  $(document).on("click", ".play-btn", () => {
     let startTime = 0.0;
     let endTime = 0.5;
     window.frequencyHistory.forEach((freq, i) => {
-      playNote(freq, startTime, endTime);
-      visualize(i);
+      playAdditiveSynthesis(
+        freq,
+        startTime,
+        endTime,
+        window.frequencyHistory.length
+      );
       startTime += 0.5;
       endTime += 0.5;
     });
