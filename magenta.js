@@ -12,21 +12,20 @@ const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const updateHistory = (newNotes) => {
   window.frequencyHistory.splice(
     selectedNotes[0],
-    selectedNotes[selectedNotes.length - 1] + 1
+    selectedNotes[selectedNotes.length - 1]
   );
 
-  let endIdx = Number(selectedNotes[selectedNotes.length - 1]);
+  let startIdx = selectedNotes[0];
 
-  for (let i = 0; i < newNotes.length; i++) {
-    $(`.${endIdx}`).after(
-      `<div class='magenta-note-signal ${
-        window.frequencyHistory.length
-      } freq-${midiToFreq(newNotes[i].pitch)}' style='top:${
-        Math.random() * (100 - 20) + 20
-      }px;left:${35 * window.frequencyHistory.length}px;'></div>`
-    );
+  let amountToAdd = selectedNotes.length;
 
-    window.frequencyHistory.splice(endIdx, 0, midiToFreq(newNotes[i].pitch));
+  if (newNotes.length < selectedNotes.length) {
+    amountToAdd = newNotes.length;
+  }
+
+  for (let i = 0; i < amountToAdd; i++) {
+    window.frequencyHistory.splice(startIdx, 0, midiToFreq(newNotes[i].pitch));
+    startIdx++;
   }
 };
 
@@ -94,6 +93,8 @@ const genNotes = async () => {
   const rnn_steps = 40; //including the input sequence length, how many more quantized steps (this is diff than how many notes) to generate
   const rnn_temperature = 1.1; //the higher the temperature, the more random (and less like the input) your sequence will be
 
+  console.log("input data", inputData);
+
   // we continue the sequence, which will take some time (thus is run async)
   // "then" when the async continueSequence is done, we play the notes
   let response = await music_rnn.continueSequence(
@@ -103,6 +104,8 @@ const genNotes = async () => {
   );
 
   let sample = mm.sequences.unquantizeSequence(response);
+
+  console.log(sample.notes);
 
   updateHistory(sample.notes);
 };
@@ -115,10 +118,10 @@ const createQuantizedInputData = () => {
 
   let startIdx = selectedNotes[0];
 
-  for (let i = 0; i < startIdx; i++) {
+  for (let i = 0; i <= startIdx; i++) {
     let freq = window.frequencyHistory[i];
 
-    const notesList = inputData["notes"];
+    let notesList = inputData["notes"];
 
     const quantizedStep = {
       pitch: freqToMidi(freq),

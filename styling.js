@@ -14,7 +14,7 @@ const signalPositioning = {
   84: 20,
 };
 
-window.window.frequencyHistory = [];
+window.frequencyHistory = [];
 
 let activeSynthTechnique = ["additive-btn"];
 let selectedNotes = [];
@@ -50,6 +50,8 @@ const selectNotesInRange = (noteIdx) => {
   if (isChangeNeeded) {
     selectedNotes = newArr.splice(0);
   }
+
+  console.log();
 };
 
 const addNoteSignalStyling = () => {
@@ -132,7 +134,6 @@ const handleBtnClick = () => {
     addMagentaOverlay();
     $(".deselect-btn").css("display", "none");
     removeNoteSignalStyling();
-    selectedNotes = [];
   });
   $(".additive-btn").click(() => {
     if (activeSynthTechnique.length != 0) {
