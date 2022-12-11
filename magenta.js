@@ -145,7 +145,7 @@ const playNote = (freq, startTime, endTime) => {
 };
 
 const visualize = (i) => {
-  let delay = (i + 1) * 500;
+  let delay = (i + 1) * 500 + (window.frequencyHistory.length * 1000) / 2;
   setTimeout(() => {
     $(`.${i - 1}`).removeClass("selected-note-signal");
     $(`.${i}`).addClass("selected-note-signal");
