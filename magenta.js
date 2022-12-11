@@ -29,7 +29,7 @@ const updateHistory = (newNotes) => {
   }
 };
 
-const playAdditiveSynthesis = (freq, startTime, endTime, offset) => {
+const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   let oscillators = [];
 
@@ -66,8 +66,8 @@ const playAdditiveSynthesis = (freq, startTime, endTime, offset) => {
   });
 
   gainNode.gain.value = 0;
-  gainNode.gain.setTargetAtTime(0.8, startTime + offset, 0.01);
-  gainNode.gain.setTargetAtTime(0, endTime + offset - 0.05, 0.01);
+  gainNode.gain.setTargetAtTime(0.8, startTime, 0.01);
+  gainNode.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
 
   return oscillators;
 };
@@ -138,6 +138,15 @@ const createQuantizedInputData = () => {
   console.log("inputData", inputData["notes"]);
 };
 
+const visualize = (i) => {
+  let delay = (i + 1) * 475;
+
+  setTimeout(() => {
+    $(`.${i - 1}`).removeClass("selected-note-signal");
+    $(`.${i}`).addClass("selected-note-signal");
+  }, delay);
+};
+
 const handleBtnClick = () => {
   $(document).on("click", ".play-btn", () => {
     let startTime = 0.0;
@@ -147,8 +156,10 @@ const handleBtnClick = () => {
         freq,
         startTime,
         endTime,
-        window.frequencyHistory.length
+        window.frequencyHistory.length,
+        i
       );
+      visualize(i);
       startTime += 0.5;
       endTime += 0.5;
     });
