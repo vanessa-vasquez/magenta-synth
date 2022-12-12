@@ -2,6 +2,8 @@ import { activeSynthTechnique, isLFOActive, lfoFreq } from "./styling.js";
 
 let numOfPartials = 1;
 let randomnessFactor = 15;
+let modFreq = 100;
+let modIndex = 100;
 let inputData = {
   notes: [],
   totalTime: 0,
@@ -118,6 +120,36 @@ const playAMMode = (freq, startTime, endTime) => {
   modulatorFreq.start();
 };
 
+const playFMMode = (freq, startTime, endTime) => {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const carrier = audioCtx.createOscillator();
+  const FMModulatorFreq = audioCtx.createOscillator();
+
+  const FMModulatorIndex = audioCtx.createGain();
+  const globalGain = audioCtx.createGain();
+  globalGain.gain.value = 0;
+
+  FMModulatorIndex.gain.value = modIndex;
+  FMModulatorFreq.frequency.value = modFreq;
+
+  globalGain.gain.setTargetAtTime(0.8, startTime, 0.01);
+  carrier.frequency.setTargetAtTime(freq, startTime, 0.001);
+
+  globalGain.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
+
+  FMModulatorFreq.connect(FMModulatorIndex);
+  FMModulatorIndex.connect(carrier.frequency);
+
+  carrier.connect(globalGain).connect(audioCtx.destination);
+
+  if (isLFOActive) {
+    runLFO(audioCtx, FMModulatorFreq);
+  }
+
+  carrier.start();
+  FMModulatorFreq.start();
+};
+
 const midiToFreq = (m) => {
   return Math.pow(2, (m - 69) / 12) * 440;
 };
@@ -193,6 +225,8 @@ const handleBtnClick = () => {
           playAdditiveSynthesis(freq, startTime, endTime);
         } else if (activeSynthTechnique === "am-btn") {
           playAMMode(freq, startTime, endTime);
+        } else {
+          playFMMode(freq, startTime, endTime);
         }
         startTime += 0.5;
         endTime += 0.5;

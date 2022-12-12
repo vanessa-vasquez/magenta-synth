@@ -10,6 +10,8 @@ let gainNodes1 = {};
 let gainNodes2 = {};
 let numOfPartials = 1;
 let randomnessFactor = 15;
+let modFreq = 100;
+let modIndex = 100;
 
 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -109,6 +111,36 @@ const runAMMode = (key) => {
   modulatorFreq.start();
 };
 
+const runFMMode = (key) => {
+  const carrier = audioCtx.createOscillator();
+  const FMModulatorFreq = audioCtx.createOscillator();
+
+  const FMModulatorIndex = audioCtx.createGain();
+
+  const globalGain = audioCtx.createGain();
+
+  FMModulatorIndex.gain.value = modIndex;
+  FMModulatorFreq.frequency.value = modFreq;
+
+  globalGain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+  carrier.frequency.value = keyboardFrequencyMap[key];
+  FMModulatorFreq.connect(FMModulatorIndex);
+  FMModulatorIndex.connect(carrier.frequency);
+
+  carrier.connect(globalGain).connect(audioCtx.destination);
+
+  activeOscillators[key] = carrier;
+  gainNodes1[key] = globalGain;
+
+  if (isLFOActive) {
+    runLFO(FMModulatorFreq);
+  }
+  applyEnvelope(globalGain);
+
+  carrier.start();
+  FMModulatorFreq.start();
+};
+
 const runLFO = (osc) => {
   const lfo = audioCtx.createOscillator();
   lfo.frequency.value = lfoFreq;
@@ -127,6 +159,8 @@ const handleKeyPress = () => {
         runAdditiveSynthesisMode(key);
       } else if (activeSynthTechnique === "am-btn") {
         runAMMode(key);
+      } else {
+        runFMMode(key);
       }
     }
   });
