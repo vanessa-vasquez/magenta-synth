@@ -1,4 +1,4 @@
-import { keyboardFrequencyMap } from "./styling.js";
+import { isLFOActive, lfoFreq, keyboardFrequencyMap } from "./styling.js";
 
 let activeOscillators = {};
 let gainNodes1 = {};
@@ -24,6 +24,15 @@ const applyEnvelope = (gainNode) => {
     0.2 / gainNodesCount,
     audioCtx.currentTime + 0.2
   );
+};
+
+const runLFO = (osc) => {
+  const lfo = audioCtx.createOscillator();
+  lfo.frequency.value = lfoFreq;
+  let lfoGain = audioCtx.createGain();
+  lfoGain.gain.value = 8;
+  lfo.connect(lfoGain).connect(osc.frequency);
+  lfo.start();
 };
 
 const runAdditiveSynthesisMode = (key) => {
@@ -59,9 +68,9 @@ const runAdditiveSynthesisMode = (key) => {
   activeOscillators[key] = oscillators[0];
   gainNodes1[key] = gainNode;
 
-  // if (isLFOActive) {
-  //   runLFO(oscillators[0]);
-  // }
+  if (isLFOActive) {
+    runLFO(oscillators[0]);
+  }
 
   applyEnvelope(gainNode);
 
@@ -124,3 +133,5 @@ const handleKeyPress = () => {
 $(document).ready(() => {
   handleKeyPress();
 });
+
+export { lfoFreq };

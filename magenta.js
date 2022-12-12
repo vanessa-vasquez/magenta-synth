@@ -1,3 +1,5 @@
+import { isLFOActive, lfoFreq } from "./styling.js";
+
 let numOfPartials = 1;
 let randomnessFactor = 15;
 let inputData = {
@@ -31,6 +33,15 @@ const updateHistory = (newNotes) => {
   $(".info-status").text("success! ready to play now");
 };
 
+const runLFO = (audioCtx, osc) => {
+  const lfo = audioCtx.createOscillator();
+  lfo.frequency.value = lfoFreq;
+  let lfoGain = audioCtx.createGain();
+  lfoGain.gain.value = 8;
+  lfo.connect(lfoGain).connect(osc.frequency);
+  lfo.start();
+};
+
 const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   let oscillators = [];
@@ -59,9 +70,9 @@ const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
 
   gainNode.connect(audioCtx.destination);
 
-  // if (isLFOActive) {
-  //   runLFO(oscillators[0]);
-  // }
+  if (isLFOActive) {
+    runLFO(audioCtx, oscillators[0]);
+  }
 
   oscillators.forEach((currentOsc) => {
     currentOsc.start();

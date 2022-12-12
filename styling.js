@@ -20,6 +20,9 @@ window.selectedNotes = [];
 let activeSynthTechnique = ["additive-btn"];
 let magentifiedNotes = [];
 
+let isLFOActive = false;
+let lfoFreq = 10;
+
 const compareNumbers = (a, b) => {
   if (a < b) {
     return -1;
@@ -91,14 +94,14 @@ const addMagentaOverlay = () => {
 };
 
 const visualizeNote = (i) => {
-  let delay = (i + 1) * 475;
+  let delay = (i + 1) * 470;
 
   setTimeout(() => {
     if (magentifiedNotes.includes(i)) {
       $(`.${i - 1}`).removeClass("selected-note-signal");
-      $(`.magenta-overlay`).removeClass("active-magenta-overlay");
       $(`.magenta-overlay`).addClass("active-magenta-overlay");
     } else {
+      $(`.magenta-overlay`).removeClass("active-magenta-overlay");
       $(`.${i - 1}`).removeClass("selected-note-signal");
       $(`.${i}`).addClass("selected-note-signal");
     }
@@ -108,7 +111,7 @@ const visualizeNote = (i) => {
     $(`.magenta-overlay`).removeClass("active-magenta-overlay");
     $(`.${i}`).removeClass("selected-note-signal");
     $(".info-status").text("play some notes");
-  }, (window.frequencyHistory.length + 1) * 475);
+  }, (window.frequencyHistory.length + 1) * 470);
 };
 
 const handleKeyPress = () => {
@@ -152,6 +155,23 @@ const handleKeyPress = () => {
       );
     }
     $(`.${key}`).removeClass("active-white-key");
+  });
+};
+
+const handleLFOToggle = () => {
+  $(".lfo-checkbox").click(() => {
+    if (isLFOActive) {
+      $(".lfo-text-status").html("LFO off");
+      $(".slider").css("display", "none");
+      $(".switch").animate({ left: "470" }, 1500);
+      $(".lfo-text-status").animate({ left: "410" }, 1500);
+    } else {
+      $(".lfo-text-status").html("LFO on");
+      $(".slider").css("display", "block");
+      $(".switch").animate({ left: "250" }, 1500);
+      $(".lfo-text-status").animate({ left: "190" }, 1500);
+    }
+    isLFOActive = !isLFOActive;
   });
 };
 
@@ -201,6 +221,11 @@ const handleBtnClick = () => {
     activeSynthTechnique = "fm-btn";
   });
 
+  $(".slider").on("input", function () {
+    let newFreq = $(".slider").val();
+    lfoFreq = newFreq;
+  });
+
   $(document).on("click", ".note-signal", (event) => {
     $(".deselect-btn").css("display", "block");
     let classList = $(event.target).attr("class").split(/\s+/);
@@ -225,6 +250,7 @@ const handleBtnClick = () => {
 $(document).ready(() => {
   handleKeyPress();
   handleBtnClick();
+  handleLFOToggle();
 });
 
-export { keyboardFrequencyMap };
+export { isLFOActive, lfoFreq, keyboardFrequencyMap };
