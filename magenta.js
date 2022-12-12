@@ -1,4 +1,4 @@
-import { isLFOActive, lfoFreq } from "./styling.js";
+import { activeSynthTechnique, isLFOActive, lfoFreq } from "./styling.js";
 
 let numOfPartials = 1;
 let randomnessFactor = 15;
@@ -42,7 +42,7 @@ const runLFO = (audioCtx, osc) => {
   lfo.start();
 };
 
-const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
+const playAdditiveSynthesis = (freq, startTime, endTime) => {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   let oscillators = [];
 
@@ -83,6 +83,39 @@ const playAdditiveSynthesis = (freq, startTime, endTime, offset, i) => {
   gainNode.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
 
   return oscillators;
+};
+
+const playAMMode = (freq, startTime, endTime) => {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const carrier = audioCtx.createOscillator();
+  const modulatorFreq = audioCtx.createOscillator();
+  const globalGain = audioCtx.createGain();
+  globalGain.gain.value = 0;
+
+  modulatorFreq.frequency.value = 100;
+
+  globalGain.gain.setTargetAtTime(0.8, startTime, 0.01);
+
+  carrier.frequency.setTargetAtTime(freq, startTime, 0.001);
+
+  globalGain.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
+
+  const modulated = audioCtx.createGain();
+  const depth = audioCtx.createGain();
+
+  depth.gain.value = 0.5;
+  modulated.gain.value = 1.0 - depth.gain.value;
+
+  modulatorFreq.connect(depth).connect(modulated.gain);
+  carrier.connect(modulated);
+  modulated.connect(globalGain).connect(audioCtx.destination);
+
+  if (isLFOActive) {
+    runLFO(audioCtx, modulatorFreq);
+  }
+
+  carrier.start();
+  modulatorFreq.start();
 };
 
 const midiToFreq = (m) => {
@@ -151,20 +184,20 @@ const createQuantizedInputData = () => {
 
 const handleBtnClick = () => {
   $(".play-btn").click(() => {
-    $(".info-status").text("playing...");
-    let startTime = 0.0;
-    let endTime = 0.5;
-    window.frequencyHistory.forEach((freq, i) => {
-      playAdditiveSynthesis(
-        freq,
-        startTime,
-        endTime,
-        window.frequencyHistory.length,
-        i
-      );
-      startTime += 0.5;
-      endTime += 0.5;
-    });
+    if (window.frequencyHistory.length > 0) {
+      $(".info-status").text("playing...");
+      let startTime = 0.0;
+      let endTime = 0.5;
+      window.frequencyHistory.forEach((freq, i) => {
+        if (activeSynthTechnique === "additive-btn") {
+          playAdditiveSynthesis(freq, startTime, endTime);
+        } else if (activeSynthTechnique === "am-btn") {
+          playAMMode(freq, startTime, endTime);
+        }
+        startTime += 0.5;
+        endTime += 0.5;
+      });
+    }
   });
 
   $(".magenta-btn").click(() => {

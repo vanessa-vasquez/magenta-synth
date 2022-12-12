@@ -1,4 +1,9 @@
-import { isLFOActive, lfoFreq, keyboardFrequencyMap } from "./styling.js";
+import {
+  isLFOActive,
+  lfoFreq,
+  activeSynthTechnique,
+  keyboardFrequencyMap,
+} from "./styling.js";
 
 let activeOscillators = {};
 let gainNodes1 = {};
@@ -24,15 +29,6 @@ const applyEnvelope = (gainNode) => {
     0.2 / gainNodesCount,
     audioCtx.currentTime + 0.2
   );
-};
-
-const runLFO = (osc) => {
-  const lfo = audioCtx.createOscillator();
-  lfo.frequency.value = lfoFreq;
-  let lfoGain = audioCtx.createGain();
-  lfoGain.gain.value = 8;
-  lfo.connect(lfoGain).connect(osc.frequency);
-  lfo.start();
 };
 
 const runAdditiveSynthesisMode = (key) => {
@@ -81,12 +77,57 @@ const runAdditiveSynthesisMode = (key) => {
   return oscillators;
 };
 
+const runAMMode = (key) => {
+  const carrier = audioCtx.createOscillator();
+  const modulatorFreq = audioCtx.createOscillator();
+  modulatorFreq.frequency.value = 100;
+  carrier.frequency.value = keyboardFrequencyMap[key];
+
+  const modulated = audioCtx.createGain();
+  const depth = audioCtx.createGain();
+  const globalGain = audioCtx.createGain();
+
+  globalGain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+  depth.gain.value = 0.5;
+  modulated.gain.value = 1.0 - depth.gain.value;
+
+  modulatorFreq.connect(depth).connect(modulated.gain);
+  carrier.connect(modulated);
+  modulated.connect(globalGain).connect(audioCtx.destination);
+
+  activeOscillators[key] = carrier;
+  gainNodes1[key] = depth;
+  gainNodes2[key] = modulated;
+
+  if (isLFOActive) {
+    runLFO(modulatorFreq);
+  }
+
+  applyEnvelope(globalGain);
+
+  carrier.start();
+  modulatorFreq.start();
+};
+
+const runLFO = (osc) => {
+  const lfo = audioCtx.createOscillator();
+  lfo.frequency.value = lfoFreq;
+  let lfoGain = audioCtx.createGain();
+  lfoGain.gain.value = 8;
+  lfo.connect(lfoGain).connect(osc.frequency);
+  lfo.start();
+};
+
 const handleKeyPress = () => {
   $(window).keydown((event) => {
     const key = (event.detail || event.which).toString();
 
     if (keyboardFrequencyMap[key] && !activeOscillators[key]) {
-      runAdditiveSynthesisMode(key);
+      if (activeSynthTechnique === "additive-btn") {
+        runAdditiveSynthesisMode(key);
+      } else if (activeSynthTechnique === "am-btn") {
+        runAMMode(key);
+      }
     }
   });
 
@@ -108,19 +149,19 @@ const handleKeyPress = () => {
 
       gainNodes1[key].gain.setValueAtTime(0, audioCtx.currentTime + 1.6);
 
-      // if (mode === "AM") {
-      //   gainNodes2[key].gain.setValueAtTime(
-      //     currentGainLevel,
-      //     audioCtx.currentTime
-      //   );
+      if (activeSynthTechnique === "am-btn") {
+        gainNodes2[key].gain.setValueAtTime(
+          currentGainLevel,
+          audioCtx.currentTime
+        );
 
-      //   gainNodes2[key].gain.exponentialRampToValueAtTime(
-      //     0.001,
-      //     audioCtx.currentTime + 1
-      //   );
+        gainNodes2[key].gain.exponentialRampToValueAtTime(
+          0.001,
+          audioCtx.currentTime + 1
+        );
 
-      //   delete gainNodes2[key];
-      // }
+        delete gainNodes2[key];
+      }
 
       activeOscillators[key].stop(audioCtx.currentTime + 1.6);
 
@@ -133,5 +174,3 @@ const handleKeyPress = () => {
 $(document).ready(() => {
   handleKeyPress();
 });
-
-export { lfoFreq };

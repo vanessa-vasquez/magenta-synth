@@ -17,7 +17,7 @@ const signalPositioning = {
 window.frequencyHistory = [];
 window.selectedNotes = [];
 
-let activeSynthTechnique = ["additive-btn"];
+let activeSynthTechnique = "additive-btn";
 let magentifiedNotes = [];
 
 let isLFOActive = false;
@@ -253,4 +253,4 @@ $(document).ready(() => {
   handleLFOToggle();
 });
 
-export { isLFOActive, lfoFreq, keyboardFrequencyMap };
+export { isLFOActive, lfoFreq, activeSynthTechnique, keyboardFrequencyMap };
