@@ -1,17 +1,22 @@
 import {
   isLFOActive,
-  lfoFreq,
   activeSynthTechnique,
   keyboardFrequencyMap,
 } from "./styling.js";
 
+import {
+  numOfPartials,
+  randomnessFactor,
+  lfoFreq,
+  modFreq,
+  modIndex,
+} from "./synth_options.js";
+
 let activeOscillators = {};
 let gainNodes1 = {};
 let gainNodes2 = {};
-let numOfPartials = 1;
-let randomnessFactor = 15;
-let modFreq = 100;
-let modIndex = 100;
+let FMModulatorFreq;
+let FMModulatorIndex;
 
 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -113,10 +118,9 @@ const runAMMode = (key) => {
 
 const runFMMode = (key) => {
   const carrier = audioCtx.createOscillator();
-  const FMModulatorFreq = audioCtx.createOscillator();
+  FMModulatorFreq = audioCtx.createOscillator();
 
-  const FMModulatorIndex = audioCtx.createGain();
-
+  FMModulatorIndex = audioCtx.createGain();
   const globalGain = audioCtx.createGain();
 
   FMModulatorIndex.gain.value = modIndex;

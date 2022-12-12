@@ -21,7 +21,6 @@ let activeSynthTechnique = "additive-btn";
 let magentifiedNotes = [];
 
 let isLFOActive = false;
-let lfoFreq = 10;
 
 const compareNumbers = (a, b) => {
   if (a < b) {
@@ -162,12 +161,12 @@ const handleLFOToggle = () => {
   $(".lfo-checkbox").click(() => {
     if (isLFOActive) {
       $(".lfo-text-status").html("LFO off");
-      $(".slider").css("display", "none");
+      $(".lfo-freq-slider").css("display", "none");
       $(".switch").animate({ left: "470" }, 1500);
       $(".lfo-text-status").animate({ left: "410" }, 1500);
     } else {
       $(".lfo-text-status").html("LFO on");
-      $(".slider").css("display", "block");
+      $(".lfo-freq-slider").css("display", "block");
       $(".switch").animate({ left: "250" }, 1500);
       $(".lfo-text-status").animate({ left: "190" }, 1500);
     }
@@ -193,6 +192,11 @@ const handleBtnClick = () => {
       $(`.${activeSynthTechnique}`).removeClass("active-btn");
       $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
     }
+    let techniqueKeyword = activeSynthTechnique.split("-")[0];
+
+    $(`.${techniqueKeyword}-options`).addClass("hide-options");
+    $(`.additive-options`).removeClass("hide-options");
+
     $(".additive-btn").addClass("active-btn");
     $(".additive-btn-label").addClass("active-btn-label");
     activeSynthTechnique = "additive-btn";
@@ -203,6 +207,10 @@ const handleBtnClick = () => {
       $(`.${activeSynthTechnique}`).removeClass("active-btn");
       $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
     }
+    let techniqueKeyword = activeSynthTechnique.split("-")[0];
+
+    $(`.${techniqueKeyword}-options`).addClass("hide-options");
+    $(`.am-options`).removeClass("hide-options");
 
     $(".am-btn").addClass("active-btn");
     $(".am-btn-label").addClass("active-btn-label");
@@ -215,15 +223,15 @@ const handleBtnClick = () => {
       $(`.${activeSynthTechnique}`).removeClass("active-btn");
       $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
     }
+    let techniqueKeyword = activeSynthTechnique.split("-")[0];
+
+    $(`.${techniqueKeyword}-options`).addClass("hide-options");
+    $(`.fm-options`).removeClass("hide-options");
+
     $(".fm-btn").addClass("active-btn");
     $(".fm-btn-label").addClass("active-btn-label");
 
     activeSynthTechnique = "fm-btn";
-  });
-
-  $(".slider").on("input", function () {
-    let newFreq = $(".slider").val();
-    lfoFreq = newFreq;
   });
 
   $(document).on("click", ".note-signal", (event) => {
@@ -253,4 +261,4 @@ $(document).ready(() => {
   handleLFOToggle();
 });
 
-export { isLFOActive, lfoFreq, activeSynthTechnique, keyboardFrequencyMap };
+export { isLFOActive, activeSynthTechnique, keyboardFrequencyMap };

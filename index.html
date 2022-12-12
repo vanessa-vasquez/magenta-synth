@@ -53,7 +53,7 @@
         min="0"
         max="20"
         value="10"
-        class="slider"
+        class="lfo-freq-slider"
         id="lfo-freq"
         name="lfo-freq"
       />
@@ -76,6 +76,47 @@
       <div class="white-key-5 84">
         <div class="note">G</div>
         <div class="keypress">T</div>
+      </div>
+    </div>
+    <div class="options-label">Additive Synthesis</div>
+    <div class="options-container">
+      <div class="additive-options">
+        <form id="partials-form">
+          <label for="partials">number of partials:</label>
+          <input type="text" id="partials" name="partials" />
+        </form>
+        <form id="randomness-form">
+          <label for="randomness">randomness factor:</label>
+          <input type="text" id="randomness" name="randomness" />
+        </form>
+      </div>
+      <div class="am-options hide-options">no available controls yet</div>
+      <div class="fm-options hide-options">
+        <div class="fm-labels">
+          <label for="mod-freq">mod. frequency</label> <br />
+          <label for="mod-index">mod. index</label>
+        </div>
+        <div class="fm-freq-slider">
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value="50"
+            id="mod-freq"
+            name="mod-freq"
+          />
+        </div>
+        <div class="fm-index-slider">
+          <br />
+          <input
+            type="range"
+            min="1"
+            max="50"
+            value="25"
+            id="mod-index"
+            name="mod-index"
+          />
+        </div>
       </div>
     </div>
   </body>

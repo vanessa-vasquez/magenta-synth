@@ -256,7 +256,7 @@ body {
   transform: scale(1.05);
 }
 
-.slider {
+.lfo-freq-slider {
   display: none;
   position: absolute;
   -webkit-appearance: none;
@@ -324,7 +324,7 @@ body {
   }
 }
 
-/* The switch - the box around the slider */
+/* The toggle switch - the box around the slider */
 .switch {
   position: relative;
   display: inline-block;
@@ -341,7 +341,7 @@ body {
   height: 0;
 }
 
-/* The toggle-switch */
+/* The switch slider */
 .toggle-slider {
   position: absolute;
   top: 0;
@@ -394,4 +394,32 @@ input:checked + .toggle-slider:before {
   color: $white;
   top: 250px;
   left: 410px;
+}
+
+.options-label {
+  position: absolute;
+  top: 60px;
+  left: 1115px;
+  font-family: $main-font;
+  font-size: 20px;
+  color: $white;
+}
+
+.options-container {
+  position: absolute;
+  top: 100px;
+  left: 1025px;
+  background-color: $medium-purple;
+  width: 335px;
+  height: 125px;
+  border-radius: 20px;
+}
+
+.fm-options {
+  display: flex;
+  white-space: nowrap;
+}
+
+.hide-options {
+  display: none !important;
 }

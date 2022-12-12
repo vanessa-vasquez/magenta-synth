@@ -1,15 +1,21 @@
-import { activeSynthTechnique, isLFOActive, lfoFreq } from "./styling.js";
+import { activeSynthTechnique, isLFOActive } from "./styling.js";
 
-let numOfPartials = 1;
-let randomnessFactor = 15;
-let modFreq = 100;
-let modIndex = 100;
+import {
+  numOfPartials,
+  randomnessFactor,
+  lfoFreq,
+  modFreq,
+  modIndex,
+} from "./synth_options.js";
+
 let inputData = {
   notes: [],
   totalTime: 0,
 };
 
 let audioCtx;
+let FMModulatorFreq;
+let FMModulatorIndex;
 
 const updateHistory = (newNotes) => {
   window.frequencyHistory.splice(
@@ -123,9 +129,9 @@ const playAMMode = (freq, startTime, endTime) => {
 const playFMMode = (freq, startTime, endTime) => {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const carrier = audioCtx.createOscillator();
-  const FMModulatorFreq = audioCtx.createOscillator();
+  FMModulatorFreq = audioCtx.createOscillator();
 
-  const FMModulatorIndex = audioCtx.createGain();
+  FMModulatorIndex = audioCtx.createGain();
   const globalGain = audioCtx.createGain();
   globalGain.gain.value = 0;
 
