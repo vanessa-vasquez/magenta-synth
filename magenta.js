@@ -8,6 +8,10 @@ import {
   modIndex,
 } from "./synth_options.js";
 
+import { makeDistortionCurve } from "./keyboard.js";
+
+const DEG = Math.PI / 180;
+
 let inputData = {
   notes: [],
   totalTime: 0,
@@ -103,9 +107,7 @@ const playAMMode = (freq, startTime, endTime) => {
   modulatorFreq.frequency.value = 100;
 
   globalGain.gain.setTargetAtTime(0.8, startTime, 0.01);
-
   carrier.frequency.setTargetAtTime(freq, startTime, 0.001);
-
   globalGain.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
 
   const modulated = audioCtx.createGain();
@@ -140,7 +142,6 @@ const playFMMode = (freq, startTime, endTime) => {
 
   globalGain.gain.setTargetAtTime(0.8, startTime, 0.01);
   carrier.frequency.setTargetAtTime(freq, startTime, 0.001);
-
   globalGain.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
 
   FMModulatorFreq.connect(FMModulatorIndex);
@@ -154,6 +155,29 @@ const playFMMode = (freq, startTime, endTime) => {
 
   carrier.start();
   FMModulatorFreq.start();
+};
+
+const playWaveshaperMode = (freq, startTime, endTime) => {
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = audioCtx.createOscillator();
+  const waveshaper = audioCtx.createWaveShaper();
+
+  waveshaper.curve = makeDistortionCurve();
+
+  const globalGain = audioCtx.createGain();
+  globalGain.gain.value = 0;
+
+  globalGain.gain.setTargetAtTime(0.8, startTime, 0.01);
+  osc.frequency.setTargetAtTime(freq, startTime, 0.001);
+  globalGain.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
+
+  if (isLFOActive) {
+    runLFO(osc);
+  }
+
+  osc.connect(waveshaper).connect(globalGain).connect(audioCtx.destination);
+
+  osc.start();
 };
 
 const midiToFreq = (m) => {
@@ -231,8 +255,10 @@ const handleBtnClick = () => {
           playAdditiveSynthesis(freq, startTime, endTime);
         } else if (activeSynthTechnique === "am-btn") {
           playAMMode(freq, startTime, endTime);
-        } else {
+        } else if (activeSynthTechnique === "fm-btn") {
           playFMMode(freq, startTime, endTime);
+        } else {
+          playWaveshaperMode(freq, startTime, endTime);
         }
         startTime += 0.5;
         endTime += 0.5;

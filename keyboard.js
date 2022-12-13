@@ -159,7 +159,6 @@ const runFMMode = (key) => {
  */
 
 const makeDistortionCurve = () => {
-  console.log(typeof k);
   const n_samples = 44100;
   const curve = new Float32Array(n_samples);
   curve.forEach((_, i) => {
@@ -172,8 +171,8 @@ const makeDistortionCurve = () => {
 const runWaveshaper = (key) => {
   const osc = audioCtx.createOscillator();
   const waveshaper = audioCtx.createWaveShaper();
-
   waveshaper.curve = makeDistortionCurve();
+
   osc.frequency.value = keyboardFrequencyMap[key];
 
   const globalGain = audioCtx.createGain();
@@ -265,4 +264,4 @@ $(document).ready(() => {
   handleKeyPress();
 });
 
-export { keyboardFrequencyMap };
+export { keyboardFrequencyMap, makeDistortionCurve };
