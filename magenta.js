@@ -265,7 +265,17 @@ const handleBtnClick = () => {
   });
 
   $(".magenta-btn").click(() => {
-    genNotes();
+    if (selectedNotes.length == 0) {
+      setTimeout(() => {
+        $(".info-status").text("select some notes first");
+      }, 0);
+      setTimeout(() => {
+        $(".info-status").text("play some notes");
+      }, 1000);
+      return;
+    } else {
+      genNotes();
+    }
   });
 
   $(document).on("click", ".note-signal", (event) => {

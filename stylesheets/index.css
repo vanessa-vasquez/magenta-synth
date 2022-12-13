@@ -453,7 +453,7 @@ input:checked + .toggle-slider:before {
   left: 1025px;
   background-color: #4361ee;
   width: 335px;
-  height: 125px;
+  height: 70px;
   border-radius: 20px;
   font-family: "Cabin", "sans-serif";
   font-size: 20px;
