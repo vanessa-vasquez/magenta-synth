@@ -1,16 +1,23 @@
-import {
-  isLFOActive,
-  activeSynthTechnique,
-  keyboardFrequencyMap,
-} from "./styling.js";
+import { isLFOActive, activeSynthTechnique } from "./styling.js";
 
 import {
   numOfPartials,
   randomnessFactor,
+  k,
   lfoFreq,
   modFreq,
   modIndex,
 } from "./synth_options.js";
+
+const keyboardFrequencyMap = {
+  81: 523.251130601197269, //Q - C
+  87: 587.32953583481512, //W - D
+  69: 659.255113825739859, //E - E
+  82: 698.456462866007768, //R - F
+  84: 783.990871963498588, //T - G
+};
+
+const DEG = Math.PI / 180;
 
 let activeOscillators = {};
 let gainNodes1 = {};
@@ -139,10 +146,53 @@ const runFMMode = (key) => {
   if (isLFOActive) {
     runLFO(FMModulatorFreq);
   }
+
   applyEnvelope(globalGain);
 
   carrier.start();
   FMModulatorFreq.start();
+};
+
+/*
+ * Distortion curve source
+ * https://stackoverflow.com/questions/22312841/waveshaper-node-in-webaudio-how-to-emulate-distortion
+ */
+
+const makeDistortionCurve = () => {
+  console.log(typeof k);
+  const n_samples = 44100;
+  const curve = new Float32Array(n_samples);
+  curve.forEach((_, i) => {
+    const x = (i * 2) / n_samples - 1;
+    curve[i] = ((3 + k) * x * 20 * DEG) / (Math.PI + k * Math.abs(x));
+  });
+  return curve;
+};
+
+const runWaveshaper = (key) => {
+  const osc = audioCtx.createOscillator();
+  const waveshaper = audioCtx.createWaveShaper();
+
+  waveshaper.curve = makeDistortionCurve();
+  osc.frequency.value = keyboardFrequencyMap[key];
+
+  const globalGain = audioCtx.createGain();
+
+  globalGain.gain.value = 0;
+  globalGain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+
+  if (isLFOActive) {
+    runLFO(osc);
+  }
+
+  osc.connect(waveshaper).connect(globalGain).connect(audioCtx.destination);
+
+  activeOscillators[key] = osc;
+  gainNodes1[key] = globalGain;
+
+  applyEnvelope(globalGain);
+
+  osc.start();
 };
 
 const runLFO = (osc) => {
@@ -163,8 +213,10 @@ const handleKeyPress = () => {
         runAdditiveSynthesisMode(key);
       } else if (activeSynthTechnique === "am-btn") {
         runAMMode(key);
-      } else {
+      } else if (activeSynthTechnique === "fm-btn") {
         runFMMode(key);
+      } else {
+        runWaveshaper(key);
       }
     }
   });
@@ -212,3 +264,5 @@ const handleKeyPress = () => {
 $(document).ready(() => {
   handleKeyPress();
 });
+
+export { keyboardFrequencyMap };

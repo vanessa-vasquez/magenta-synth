@@ -1,10 +1,4 @@
-const keyboardFrequencyMap = {
-  81: 523.251130601197269, //Q - C
-  87: 587.32953583481512, //W - D
-  69: 659.255113825739859, //E - E
-  82: 698.456462866007768, //R - F
-  84: 783.990871963498588, //T - G
-};
+import { keyboardFrequencyMap } from "./keyboard.js";
 
 const signalPositioning = {
   81: 100,
@@ -113,6 +107,17 @@ const visualizeNote = (i) => {
   }, (window.frequencyHistory.length + 1) * 470);
 };
 
+const updateOptions = (prevTechnique, newTechnique) => {
+  $(`.${prevTechnique}-options`).addClass("hide-options");
+  $(`.${newTechnique}-options`).removeClass("hide-options");
+
+  $(".options-label").removeClass(`${prevTechnique}-option-label`);
+  $(".options-label").addClass(`${newTechnique}-option-label`);
+  $(".options-label").text(
+    newTechnique == "additive" ? "additive synthesis" : newTechnique
+  );
+};
+
 const handleKeyPress = () => {
   $(window).keydown((event) => {
     const key = (event.detail || event.which).toString();
@@ -192,13 +197,13 @@ const handleBtnClick = () => {
       $(`.${activeSynthTechnique}`).removeClass("active-btn");
       $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
     }
-    let techniqueKeyword = activeSynthTechnique.split("-")[0];
+    let prevTechnique = activeSynthTechnique.split("-")[0];
 
-    $(`.${techniqueKeyword}-options`).addClass("hide-options");
-    $(`.additive-options`).removeClass("hide-options");
+    updateOptions(prevTechnique, "additive");
 
     $(".additive-btn").addClass("active-btn");
     $(".additive-btn-label").addClass("active-btn-label");
+
     activeSynthTechnique = "additive-btn";
   });
 
@@ -207,10 +212,9 @@ const handleBtnClick = () => {
       $(`.${activeSynthTechnique}`).removeClass("active-btn");
       $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
     }
-    let techniqueKeyword = activeSynthTechnique.split("-")[0];
+    let prevTechnique = activeSynthTechnique.split("-")[0];
 
-    $(`.${techniqueKeyword}-options`).addClass("hide-options");
-    $(`.am-options`).removeClass("hide-options");
+    updateOptions(prevTechnique, "am");
 
     $(".am-btn").addClass("active-btn");
     $(".am-btn-label").addClass("active-btn-label");
@@ -223,15 +227,29 @@ const handleBtnClick = () => {
       $(`.${activeSynthTechnique}`).removeClass("active-btn");
       $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
     }
-    let techniqueKeyword = activeSynthTechnique.split("-")[0];
+    let prevTechnique = activeSynthTechnique.split("-")[0];
 
-    $(`.${techniqueKeyword}-options`).addClass("hide-options");
-    $(`.fm-options`).removeClass("hide-options");
+    updateOptions(prevTechnique, "fm");
 
     $(".fm-btn").addClass("active-btn");
     $(".fm-btn-label").addClass("active-btn-label");
 
     activeSynthTechnique = "fm-btn";
+  });
+
+  $(".waveshaper-btn").click(() => {
+    if (activeSynthTechnique != "waveshaper-btn") {
+      $(`.${activeSynthTechnique}`).removeClass("active-btn");
+      $(`.${activeSynthTechnique}`).removeClass("active-btn-label");
+    }
+    let prevTechnique = activeSynthTechnique.split("-")[0];
+
+    updateOptions(prevTechnique, "waveshaper");
+
+    $(".waveshaper-btn").addClass("active-btn");
+    $(".waveshaper-btn-label").addClass("active-btn-label");
+
+    activeSynthTechnique = "waveshaper-btn";
   });
 
   $(document).on("click", ".note-signal", (event) => {
@@ -261,4 +279,4 @@ $(document).ready(() => {
   handleLFOToggle();
 });
 
-export { isLFOActive, activeSynthTechnique, keyboardFrequencyMap };
+export { isLFOActive, activeSynthTechnique };

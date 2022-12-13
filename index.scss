@@ -39,7 +39,8 @@ body {
 
 .additive-btn,
 .am-btn,
-.fm-btn {
+.fm-btn,
+.waveshaper-btn {
   transition-duration: 300ms;
   position: absolute;
   background-color: $medium-purple;
@@ -55,7 +56,8 @@ body {
 
 .additive-btn-label,
 .am-btn-label,
-.fm-btn-label {
+.fm-btn-label,
+.waveshaper-btn-label {
   display: flex;
   justify-content: center;
   font-family: $main-font;
@@ -111,6 +113,10 @@ body {
 
 .fm-btn {
   left: 460px;
+}
+
+.waveshaper-btn {
+  left: 670px;
 }
 
 .speaker-1,
@@ -399,10 +405,22 @@ input:checked + .toggle-slider:before {
 .options-label {
   position: absolute;
   top: 60px;
-  left: 1115px;
   font-family: $main-font;
   font-size: 20px;
   color: $white;
+}
+
+.additive-option-label {
+  left: 1145px;
+}
+
+.waveshaper-option-label {
+  left: 1165px;
+}
+
+.am-option-label,
+.fm-option-label {
+  left: 1200px;
 }
 
 .options-container {

@@ -1,14 +1,23 @@
 let numOfPartials = 3;
 let randomnessFactor = 15;
+let k = 50;
 let lfoFreq = 10;
 let modFreq = 50;
 let modIndex = 25;
 
 const handleSubmit = () => {
+  $(document).on("submit", "#k-form", (e) => {
+    e.preventDefault();
+
+    k = Number($("#k-form input[name='k']").val());
+
+    $("#k-form input").blur();
+  });
+
   $(document).on("submit", "#partials-form", (e) => {
     e.preventDefault();
 
-    numOfPartials = $("#partials-form input[name='partials']").val();
+    numOfPartials = Number($("#partials-form input[name='partials']").val());
 
     $("#partials-form input").blur();
   });
@@ -16,7 +25,9 @@ const handleSubmit = () => {
   $(document).on("submit", "#randomness-form", (e) => {
     e.preventDefault();
 
-    randomnessFactor = $("#randomness-form input[name='randomness']").val();
+    randomnessFactor = Number(
+      $("#randomness-form input[name='randomness']").val()
+    );
 
     $("#randomness-form input").blur();
   });
@@ -50,4 +61,4 @@ $(document).ready(() => {
   updateSlider();
 });
 
-export { numOfPartials, randomnessFactor, lfoFreq, modFreq, modIndex };
+export { numOfPartials, randomnessFactor, k, lfoFreq, modFreq, modIndex };

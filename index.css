@@ -23,7 +23,8 @@ body {
 
 .additive-btn,
 .am-btn,
-.fm-btn {
+.fm-btn,
+.waveshaper-btn {
   -webkit-transition-duration: 300ms;
           transition-duration: 300ms;
   position: absolute;
@@ -36,7 +37,8 @@ body {
 
 .additive-btn:hover,
 .am-btn:hover,
-.fm-btn:hover {
+.fm-btn:hover,
+.waveshaper-btn:hover {
   cursor: -webkit-grab;
   cursor: grab;
   background-color: #3a0ca3;
@@ -44,7 +46,8 @@ body {
 
 .additive-btn-label,
 .am-btn-label,
-.fm-btn-label {
+.fm-btn-label,
+.waveshaper-btn-label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -110,6 +113,10 @@ body {
 
 .fm-btn {
   left: 460px;
+}
+
+.waveshaper-btn {
+  left: 670px;
 }
 
 .speaker-1,
@@ -422,10 +429,22 @@ input:checked + .toggle-slider:before {
 .options-label {
   position: absolute;
   top: 60px;
-  left: 1115px;
   font-family: "Cabin", "sans-serif";
   font-size: 20px;
   color: #e9e9e9;
+}
+
+.additive-option-label {
+  left: 1145px;
+}
+
+.waveshaper-option-label {
+  left: 1165px;
+}
+
+.am-option-label,
+.fm-option-label {
+  left: 1200px;
 }
 
 .options-container {
