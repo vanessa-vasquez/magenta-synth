@@ -87,7 +87,7 @@ const addMagentaOverlay = () => {
 };
 
 const visualizeNote = (i) => {
-  let delay = (i + 1) * 470;
+  let delay = i * 500;
 
   setTimeout(() => {
     if (magentifiedNotes.includes(i)) {
@@ -104,7 +104,7 @@ const visualizeNote = (i) => {
     $(`.magenta-overlay`).removeClass("active-magenta-overlay");
     $(`.${i}`).removeClass("selected-note-signal");
     $(".info-status").text("play some notes");
-  }, (window.frequencyHistory.length + 1) * 470);
+  }, window.frequencyHistory.length * 500);
 };
 
 const updateOptions = (prevTechnique, newTechnique) => {
@@ -116,6 +116,15 @@ const updateOptions = (prevTechnique, newTechnique) => {
   $(".options-label").text(
     newTechnique == "additive" ? "additive synthesis" : newTechnique
   );
+};
+
+const showActivationText = (technique) => {
+  setTimeout(() => {
+    $(".info-status").text(`${technique} mode activated`);
+  }, 0);
+  setTimeout(() => {
+    $(".info-status").text("play some notes");
+  }, 1000);
 };
 
 const handleKeyPress = () => {
@@ -204,6 +213,8 @@ const handleBtnClick = () => {
     $(".additive-btn").addClass("active-btn");
     $(".additive-btn-label").addClass("active-btn-label");
 
+    showActivationText("additive");
+
     activeSynthTechnique = "additive-btn";
   });
 
@@ -218,6 +229,8 @@ const handleBtnClick = () => {
 
     $(".am-btn").addClass("active-btn");
     $(".am-btn-label").addClass("active-btn-label");
+
+    showActivationText("am");
 
     activeSynthTechnique = "am-btn";
   });
@@ -234,6 +247,8 @@ const handleBtnClick = () => {
     $(".fm-btn").addClass("active-btn");
     $(".fm-btn-label").addClass("active-btn-label");
 
+    showActivationText("fm");
+
     activeSynthTechnique = "fm-btn";
   });
 
@@ -248,6 +263,8 @@ const handleBtnClick = () => {
 
     $(".waveshaper-btn").addClass("active-btn");
     $(".waveshaper-btn-label").addClass("active-btn-label");
+
+    showActivationText("waveshaper");
 
     activeSynthTechnique = "waveshaper-btn";
   });

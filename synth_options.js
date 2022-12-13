@@ -47,9 +47,9 @@ const updateIndex = () => {
   });
 };
 
-const updateSlider = () => {
-  $(".slider").on("input", function () {
-    let newFreq = $(".slider").val();
+const updateLFOVal = () => {
+  $(".lfo-freq-slider").on("input", function () {
+    let newFreq = Number($(".lfo-freq-slider").val());
     lfoFreq = newFreq;
   });
 };
@@ -58,7 +58,7 @@ $(document).ready(() => {
   handleSubmit();
   updateFreq();
   updateIndex();
-  updateSlider();
+  updateLFOVal();
 });
 
 export { numOfPartials, randomnessFactor, k, lfoFreq, modFreq, modIndex };

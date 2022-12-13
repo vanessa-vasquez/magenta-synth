@@ -10,8 +10,6 @@ import {
 
 import { makeDistortionCurve } from "./keyboard.js";
 
-const DEG = Math.PI / 180;
-
 let inputData = {
   notes: [],
   totalTime: 0,
@@ -172,7 +170,7 @@ const playWaveshaperMode = (freq, startTime, endTime) => {
   globalGain.gain.setTargetAtTime(0, endTime - 0.05, 0.01);
 
   if (isLFOActive) {
-    runLFO(osc);
+    runLFO(audioCtx, osc);
   }
 
   osc.connect(waveshaper).connect(globalGain).connect(audioCtx.destination);
