@@ -162,13 +162,13 @@ const handleLFOToggle = () => {
     if (isLFOActive) {
       $(".lfo-text-status").html("LFO off");
       $(".lfo-freq-slider").css("display", "none");
-      $(".switch").animate({ left: "470" }, 1500);
-      $(".lfo-text-status").animate({ left: "410" }, 1500);
+      $(".switch").animate({ left: "470" }, 1000);
+      $(".lfo-text-status").animate({ left: "410" }, 1000);
     } else {
       $(".lfo-text-status").html("LFO on");
       $(".lfo-freq-slider").css("display", "block");
-      $(".switch").animate({ left: "250" }, 1500);
-      $(".lfo-text-status").animate({ left: "190" }, 1500);
+      $(".switch").animate({ left: "250" }, 1000);
+      $(".lfo-text-status").animate({ left: "190" }, 1000);
     }
     isLFOActive = !isLFOActive;
   });
