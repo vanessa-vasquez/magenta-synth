@@ -4,6 +4,22 @@ body {
   background-color: #4f1cc3;
 }
 
+.recording-view {
+  position: absolute;
+  width: 485px;
+  height: 125px;
+  background-color: #dcb0c4;
+  border-radius: 20px;
+  top: 100px;
+  left: 230px;
+  overflow-x: scroll;
+}
+
+.magenta-logo {
+  width: 50px;
+  height: 55px;
+}
+
 .magenta-overlay {
   position: absolute;
   background-color: #f72585;
@@ -14,11 +30,6 @@ body {
 
 .active-magenta-overlay {
   opacity: 1 !important;
-}
-
-.magenta-logo {
-  width: 50px;
-  height: 55px;
 }
 
 .additive-btn,
@@ -42,6 +53,22 @@ body {
   cursor: -webkit-grab;
   cursor: grab;
   background-color: #3a0ca3;
+}
+
+.additive-btn {
+  left: 40px;
+}
+
+.am-btn {
+  left: 250px;
+}
+
+.fm-btn {
+  left: 460px;
+}
+
+.waveshaper-btn {
+  left: 670px;
 }
 
 .additive-btn-label,
@@ -103,22 +130,6 @@ body {
   margin-left: 20px;
 }
 
-.additive-btn {
-  left: 40px;
-}
-
-.am-btn {
-  left: 250px;
-}
-
-.fm-btn {
-  left: 460px;
-}
-
-.waveshaper-btn {
-  left: 670px;
-}
-
 .speaker-1,
 .speaker-2 {
   position: absolute;
@@ -149,17 +160,6 @@ body {
   left: 55px;
 }
 
-.recording-view {
-  position: absolute;
-  width: 485px;
-  height: 125px;
-  background-color: #dcb0c4;
-  border-radius: 20px;
-  top: 100px;
-  left: 230px;
-  overflow-x: scroll;
-}
-
 .play-btn,
 .magenta-btn {
   display: -webkit-box;
@@ -188,16 +188,16 @@ body {
   cursor: grab;
 }
 
-.active-adjust-btn {
-  background-color: #138db4;
-}
-
 .play-btn {
   left: 390px;
 }
 
 .magenta-btn {
   left: 490px;
+}
+
+.active-adjust-btn {
+  background-color: #138db4;
 }
 
 .play-icon,
@@ -236,15 +236,6 @@ body {
   padding-top: 10px;
 }
 
-.note {
-  color: #bcbcbc;
-}
-
-.keypress {
-  color: #222222;
-  margin-top: auto;
-}
-
 .white-key-1 {
   border-radius: 20px 0px 20px 20px;
   left: 230px;
@@ -270,6 +261,15 @@ body {
   left: 630px;
 }
 
+.note {
+  color: #bcbcbc;
+}
+
+.keypress {
+  color: #222222;
+  margin-top: auto;
+}
+
 .active-white-key {
   -webkit-transform-origin: top;
           transform-origin: top;
@@ -282,6 +282,7 @@ body {
           transform: scale(1.05);
 }
 
+/* LFO freq slider */
 .lfo-freq-slider {
   display: none;
   position: absolute;
@@ -326,16 +327,16 @@ body {
   opacity: 1 !important;
 }
 
+.selected-note-signal {
+  opacity: 1 !important;
+}
+
 .magenta-note-signal {
   position: absolute;
   height: 10px;
   width: 35px;
   background-color: #f72585 !important;
   z-index: 1;
-}
-
-.selected-note-signal {
-  opacity: 1 !important;
 }
 
 .deselect-btn {
@@ -505,5 +506,19 @@ input:checked + .toggle-slider:before {
   -webkit-box-shadow: -80px 0 0 80px #bcbcbc;
           box-shadow: -80px 0 0 80px #bcbcbc;
   border-radius: 50%;
+}
+
+.github-link {
+  font-family: "Cabin", "sans-serif";
+  color: #e9e9e9;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+a {
+  color: #4cc9f0;
 }
 /*# sourceMappingURL=index.css.map */

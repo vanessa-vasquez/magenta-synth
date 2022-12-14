@@ -20,6 +20,22 @@ body {
   background-color: $main-purple;
 }
 
+.recording-view {
+  position: absolute;
+  width: 485px;
+  height: 125px;
+  background-color: $light-pink;
+  border-radius: 20px;
+  top: 100px;
+  left: 230px;
+  overflow-x: scroll;
+}
+
+.magenta-logo {
+  width: 50px;
+  height: 55px;
+}
+
 .magenta-overlay {
   position: absolute;
   background-color: $hot-pink;
@@ -30,11 +46,6 @@ body {
 
 .active-magenta-overlay {
   opacity: 1 !important;
-}
-
-.magenta-logo {
-  width: 50px;
-  height: 55px;
 }
 
 .additive-btn,
@@ -52,6 +63,22 @@ body {
     cursor: grab;
     background-color: $dark-purple;
   }
+}
+
+.additive-btn {
+  left: 40px;
+}
+
+.am-btn {
+  left: 250px;
+}
+
+.fm-btn {
+  left: 460px;
+}
+
+.waveshaper-btn {
+  left: 670px;
 }
 
 .additive-btn-label,
@@ -103,22 +130,6 @@ body {
   margin-left: 20px;
 }
 
-.additive-btn {
-  left: 40px;
-}
-
-.am-btn {
-  left: 250px;
-}
-
-.fm-btn {
-  left: 460px;
-}
-
-.waveshaper-btn {
-  left: 670px;
-}
-
 .speaker-1,
 .speaker-2 {
   position: absolute;
@@ -149,17 +160,6 @@ body {
   left: 55px;
 }
 
-.recording-view {
-  position: absolute;
-  width: 485px;
-  height: 125px;
-  background-color: $light-pink;
-  border-radius: 20px;
-  top: 100px;
-  left: 230px;
-  overflow-x: scroll;
-}
-
 .play-btn,
 .magenta-btn {
   display: flex;
@@ -178,16 +178,16 @@ body {
   }
 }
 
-.active-adjust-btn {
-  background-color: $dark-blue;
-}
-
 .play-btn {
   left: 390px;
 }
 
 .magenta-btn {
   left: 490px;
+}
+
+.active-adjust-btn {
+  background-color: $dark-blue;
 }
 
 .play-icon,
@@ -219,15 +219,6 @@ body {
   padding-top: 10px;
 }
 
-.note {
-  color: $light-grey;
-}
-
-.keypress {
-  color: $dark-grey;
-  margin-top: auto;
-}
-
 .white-key-1 {
   border-radius: 20px 0px 20px 20px;
   left: 230px;
@@ -253,6 +244,15 @@ body {
   left: 630px;
 }
 
+.note {
+  color: $light-grey;
+}
+
+.keypress {
+  color: $dark-grey;
+  margin-top: auto;
+}
+
 .active-white-key {
   transform-origin: top;
   transform: scale(0.97);
@@ -262,6 +262,7 @@ body {
   transform: scale(1.05);
 }
 
+/* LFO freq slider */
 .lfo-freq-slider {
   display: none;
   position: absolute;
@@ -304,16 +305,16 @@ body {
   }
 }
 
+.selected-note-signal {
+  opacity: 1 !important;
+}
+
 .magenta-note-signal {
   position: absolute;
   height: 10px;
   width: 35px;
   background-color: $hot-pink !important;
   z-index: 1;
-}
-
-.selected-note-signal {
-  opacity: 1 !important;
 }
 
 .deselect-btn {
@@ -475,4 +476,18 @@ input:checked + .toggle-slider:before {
     box-shadow: -80px 0 0 80px $light-grey;
     border-radius: 50%;
   }
+}
+
+.github-link {
+  font-family: $main-font;
+  color: $white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+a {
+  color: $light-blue;
 }
