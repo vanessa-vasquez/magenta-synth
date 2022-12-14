@@ -409,6 +409,7 @@ input:checked + .toggle-slider:before {
   font-family: $main-font;
   font-size: 20px;
   color: $white;
+  white-space: nowrap;
 }
 
 .additive-option-label {
