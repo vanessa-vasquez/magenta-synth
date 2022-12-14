@@ -29,10 +29,6 @@ const updateHistory = (newNotes) => {
 
   let numNotesToAdd = window.selectedNotes.length;
 
-  if (newNotes.length < window.selectedNotes.length) {
-    amountToAdd = newNotes.length;
-  }
-
   for (let i = 0; i < numNotesToAdd; i++) {
     window.frequencyHistory.splice(startIdx, 0, midiToFreq(newNotes[i].pitch));
     startIdx++;
