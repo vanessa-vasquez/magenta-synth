@@ -184,6 +184,7 @@ const freqToMidi = (f) => {
 
 const genNotes = async () => {
   $(".info-status").text("magentifying...");
+
   //load a pre-trained RNN model
   const music_rnn = new mm.MusicRNN(
     "https://storage.googleapis.com/magentadata/js/checkpoints/music_rnn/basic_rnn"
